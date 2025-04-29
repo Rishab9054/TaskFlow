@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "app_id": "app_8e2e0054-2e69-4a46-ae93-d4db1397d525",
+      "org_id": "user_0d6de902-25b6-4ccf-9c84-38408d02cb77",
+      "deploy_url": "https://push-n3-par-clevercloud-customers.services.clever-cloud.com/app_8e2e0054-2e69-4a46-ae93-d4db1397d525.git",
+      "git_ssh_url": "git+ssh://git@push-n3-par-clevercloud-customers.services.clever-cloud.com/app_8e2e0054-2e69-4a46-ae93-d4db1397d525.git",
+      "name": "taskflow",
+      "alias": "taskflow"
+    }
+  ]
+}
