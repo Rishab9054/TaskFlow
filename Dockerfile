@@ -21,14 +21,20 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy existing application directory contents
-COPY . /var/www
+# Copy composer files first
+COPY composer.json composer.lock* ./
+
+# Set Composer environment variable
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Install PHP dependencies
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+# Copy the rest of the application
+COPY . .
 
 # Install Node dependencies and build assets
-RUN npm install && npm run build
+RUN npm ci && npm run build
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
