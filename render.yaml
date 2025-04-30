@@ -1,27 +1,47 @@
 services:
-  - type: web
-    name: laravel-app
+  - name: taskflow
+    type: web
     env: php
     plan: free
-    buildCommand: |
-      composer install
-      npm install
-      npm run build
-    startCommand: php artisan serve --host 0.0.0.0 --port 10000
+    buildCommand: composer install && npm install && npm run build
+    startCommand: php artisan serve --host 0.0.0.0 --port $PORT
     envVars:
+      - key: APP_NAME
+        value: TaskFlow
       - key: APP_ENV
         value: production
       - key: APP_KEY
-        value: base64:XJ+YAwf6J3Rx2eVgLcNpDPHeju0BRDdY2pYqHot6Tsk=
+        generateValue: true
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        fromService:
+          name: taskflow
+          type: web
+          property: host
       - key: DB_CONNECTION
-        value: mysql
+        value: pgsql
       - key: DB_HOST
-        value: bsqrs5wed3rwmdwjg61m-mysql.services.clever-cloud.com
+        fromDatabase:
+          name: taskflow-db
+          property: host
       - key: DB_PORT
-        value: 3306
+        fromDatabase:
+          name: taskflow-db
+          property: port
       - key: DB_DATABASE
-        value: bsqrs5wed3rwmdwjg61m
+        fromDatabase:
+          name: taskflow-db
+          property: database
       - key: DB_USERNAME
-        value: u2aibspxoug2uteb
+        fromDatabase:
+          name: taskflow-db
+          property: username
       - key: DB_PASSWORD
-        value: 4uHY12EWLrauub28splj
+        fromDatabase:
+          name: taskflow-db
+          property: password
+
+databases:
+  - name: taskflow-db
+    type: postgresql
